@@ -717,13 +717,17 @@ __kernel void profanity_score_matching(__global mp_number * const pInverse, __gl
 
 	for (int i = 0; i < 20; ++i) {
 		if (i & 1) {
-			if (hash[i] == 9) {
+			if ((hash[i] & 0xF0) >> 4 == 9) {
+				++score;
+			} else if ((hash[i] & 0x0F) == 9){
 				++score;
 			} else {
 				break;
 			}
 		}else{
-			if (hash[i] == 6) {
+			if ((hash[i] & 0xF0) >> 4 == 6) {
+				++score;
+			} else if ((hash[i] & 0x0F) == 6){
 				++score;
 			} else {
 				break;
