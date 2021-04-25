@@ -1,3 +1,8 @@
+This fork remaps the --matching mode to serach for ethereum addresses beginning with 69.
+The current profanity implementation only allows searching for either leading range or leading single char.
+Not familiar with opencl so could be problems.
+
+
 # profanity
 Profanity is a high performance (probably the fastest!) vanity address generator for Ethereum. Create cool customized addresses that you never realized you needed! Recieve Ether in style! Wow!
 
