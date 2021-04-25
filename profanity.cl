@@ -719,10 +719,14 @@ __kernel void profanity_score_matching(__global mp_number * const pInverse, __gl
 		if (i & 1) {
 			if (hash[i] == 9) {
 				++score;
+			} else {
+				break;
 			}
 		}else{
 			if (hash[i] == 6) {
 				++score;
+			} else {
+				break;
 			}
 		}
 	}
