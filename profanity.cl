@@ -46,7 +46,6 @@
 #define MP_WORDS 8
 #define MP_BITS 32
 #define bswap32(n) (rotate(n & 0x00FF00FF, 24U)|(rotate(n, 8U) & 0x00FF00FF))
-#pragma OPENCL EXTENSION cl_amd_printf : enable
 
 typedef uint mp_word;
 typedef struct {
@@ -717,9 +716,35 @@ __kernel void profanity_score_matching(__global mp_number * const pInverse, __gl
 	int score = 0;
 
 	for (int i = 0; i < 20; ++i) {
-		printf(hash[i]);
-		if (data1[i] > 0 && (hash[i] & data1[i]) == 6) {
+		const uchar first = (hash[i] & 0xF0) >> 4;
+		const uchar second = (hash[i] & 0x0F);
+		if (first == 0x06) {
 			++score;
+		} else {break;}
+		if (second == 0x09) {
+			+=score;
+		} else {break;}
+
+	}
+
+	profanity_result_update(id, hash, pResult, score, scoreMax);
+}
+
+__kernel void profanity_score_leadingstr(__global mp_number * const pInverse, __global result * const pResult, 
+	__constant const uchar * const data1, __constant const uchar * const data2, const uchar scoreMax) {
+	const size_t id = get_global_id(0);
+	__global const uchar * const hash = pInverse[id].d;
+	int score = 0;
+
+	for (int i = 0; i < 20; ++i) {
+		if (x & 1) {
+			if (hash[i] == 9) {
+				++score;
+			}
+		}else{
+			if (hash[i] == 6) {
+				++score;
+			}
 		}
 	}
 
